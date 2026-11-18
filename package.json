@@ -1,0 +1,29 @@
+{
+  "name": "node.js-raw",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.ts",
+  "scripts": {
+    "dev": "tsx watch ./src/server.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kamalcodezen/Node.js-raw.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/kamalcodezen/Node.js-raw/issues"
+  },
+  "homepage": "https://github.com/kamalcodezen/Node.js-raw#readme",
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "tsx": "^4.23.15"
+  }
+}
