@@ -13,10 +13,10 @@ const routerHandler = (req: IncomingMessage, res: ServerResponse) => {
     
   } else if (url?.startsWith("/products")) {
 
-    // * products -> GET,POST,PUT,PATCH
-    productsController(req, res);
+    //* method -> GET,POST,PUT,PATCH
+    productsController(req,res);
 
-  } else {
+  } else { 
 
     res.writeHead(404, { "Content-Type": "application/json" });
     res.end(JSON.stringify({ message: "This route is not defined" }));

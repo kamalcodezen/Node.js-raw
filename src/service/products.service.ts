@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import type { IProducts } from "../types/products";
 
 const filePath = path.join(process.cwd(), "./src/database/db.json"); //* file path system a database join kore connect korche......
 
@@ -10,4 +11,9 @@ export const productsService = () => {
   const result = fs.readFileSync(filePath, "utf-8"); //* fs file path a ke read korche stringify hisabe
 
   return JSON.parse(result);
+};
+
+// * products create/POST -> insert
+export const createProducts = (payload: IProducts[]) => {
+  fs.writeFileSync(filePath, JSON.stringify(payload));
 };

@@ -1,12 +1,6 @@
 [
-  {
-    "id": 1,
-    "name": "book",
-    "price": 20
-  },
-  {
-    "id": 2,
-    "name": "batch",
-    "price": 20
-  }
+  { "id": 1, "name": "products-1", "price": 20 },
+  { "id": 2, "name": "products-2", "price": 20 },
+  { "id": 1795276035772, "name": "products-3", "price": 200 },
+  { "id": 1795276092923, "name": "products-4", "price": 100 }
 ]
