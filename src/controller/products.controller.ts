@@ -56,15 +56,44 @@ const productsController = async (
     };
 
     const products = productsService(); //*[{},{}]
-    products.push(newProducts);
+    products.push(newProducts); //* [{},{},{new products}]
 
-    createProducts(products); //* [{},{},{}]
+    //* database update
+    createProducts(products);
 
     res.writeHead(201, { "Content-Type": "application/json" });
     res.end(
       JSON.stringify({
         message: "Products created successfully",
         data: newProducts,
+      }),
+    );
+
+    // * PUT -> Products Update
+  } else if (method === "PUT" && id !== null) {
+
+    const body = await bodyParser(req);
+
+    const products = productsService(); //*[{},{},{}]
+
+    // * index find
+    const index = products.findIndex((p: IProducts) => p.id === id);
+
+    if (index < 0) {
+      res.writeHead(404, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ message: "Product not found" }));
+    }
+
+    products[index] = { id: products[index].id, ...body };
+
+    //* database update
+    createProducts(products);
+
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(
+      JSON.stringify({
+        message: "Product update successfully",
+        data: products[index],
       }),
     );
   }
