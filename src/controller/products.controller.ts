@@ -29,7 +29,6 @@ const productsController = async (
         data: products,
       }),
     );
-
     // * GET Single products
   } else if (method === "GET" && id !== null) {
     // * Service ke call kore data nilam
