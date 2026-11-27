@@ -1,5 +1,6 @@
 import type { IProducts } from "../types/products";
 import { bodyParser } from "../utils/parseBody";
+import { responseSend } from "../utils/sendResponse";
 import { createProducts, productsService } from "./../service/products.service";
 import type { IncomingMessage, ServerResponse } from "http";
 
@@ -21,14 +22,12 @@ const productsController = async (
   if (url === "/products" && method === "GET") {
     const products = productsService();
 
-    res.writeHead(200, { "Content-Type": "application/json" });
+    try {
+      responseSend(res, true, 200, "products is available", products);
+    } catch (error) {
+      responseSend(res, false, 500, "Internal server error");
+    }
 
-    res.end(
-      JSON.stringify({
-        message: "products is available",
-        data: products,
-      }),
-    );
     // * GET Single products
   } else if (method === "GET" && id !== null) {
     // * Service ke call kore data nilam
@@ -37,17 +36,14 @@ const productsController = async (
     const product = products.find((p: IProducts) => p.id === id);
 
     if (!product) {
-      res.writeHead(404, { "Content-Type": "application/json" });
-      res.end(JSON.stringify({ message: "Product not found" }));
+      responseSend(res, false, 404, "Product not found");
     }
 
-    res.writeHead(200, { "Content-Type": "application/json" });
-    res.end(
-      JSON.stringify({
-        message: "Single product is available",
-        data: product,
-      }),
-    );
+    try {
+      responseSend(res, true, 200, "Single product is available", product);
+    } catch (error) {
+      responseSend(res, false, 500, "Internal server error");
+    }
 
     // * POST ->  products data insert
   } else if (method === "POST" && url === "/products") {
@@ -65,13 +61,17 @@ const productsController = async (
     //* database update
     createProducts(products);
 
-    res.writeHead(201, { "Content-Type": "application/json" });
-    res.end(
-      JSON.stringify({
-        message: "Products created successfully",
-        data: newProducts,
-      }),
-    );
+    try {
+      responseSend(
+        res,
+        true,
+        201,
+        "Products created successfully",
+        newProducts,
+      );
+    } catch (error) {
+      responseSend(res, false, 500, "Internal server error");
+    }
 
     // * PUT -> Products Update
   } else if (method === "PUT" && id !== null) {
@@ -83,8 +83,7 @@ const productsController = async (
     const index = products.findIndex((p: IProducts) => p.id === id);
 
     if (index < 0) {
-      res.writeHead(404, { "Content-Type": "application/json" });
-      res.end(JSON.stringify({ message: "Product not found" }));
+      responseSend(res, false, 404, "Product not found");
     }
 
     products[index] = { id: products[index].id, ...body };
@@ -92,13 +91,17 @@ const productsController = async (
     //* database update
     createProducts(products);
 
-    res.writeHead(200, { "Content-Type": "application/json" });
-    res.end(
-      JSON.stringify({
-        message: "Product update successfully",
-        data: products[index],
-      }),
-    );
+    try {
+      responseSend(
+        res,
+        true,
+        200,
+        "Product update successfully",
+        products[index],
+      );
+    } catch (error) {
+      responseSend(res, false, 500, "Internal server error");
+    }
 
     // * Delete ->
   } else if (method === "DELETE" && id !== null) {
@@ -108,8 +111,7 @@ const productsController = async (
     const index = products.findIndex((p: IProducts) => p.id === id);
 
     if (index < 0) {
-      res.writeHead(404, { "Content-Type": "application/json" });
-      res.end(JSON.stringify({ message: "Product not found" }));
+      responseSend(res, false, 404, "Product not found");
     }
 
     products.splice(products[index], 1);
@@ -117,12 +119,11 @@ const productsController = async (
     //* products update
     createProducts(products);
 
-    res.writeHead(200, { "Content-Type": "application/json" });
-    res.end(
-      JSON.stringify({
-        message: "Product deleted successfully",
-      }),
-    );
+    try {
+      responseSend(res, true, 200, "Product deleted successfully");
+    } catch (error) {
+      responseSend(res, false, 500, "Internal server error");
+    }
   }
 };
 
