@@ -1,5 +1,6 @@
 import { createServer, IncomingMessage, Server, ServerResponse } from "http";
 import routerHandler from "./routes/routes.js";
+import config from "./config/env.js";
 
 const server: Server = createServer(
   (req: IncomingMessage, res: ServerResponse) => {
@@ -13,6 +14,6 @@ const server: Server = createServer(
   },
 );
 
-server.listen(5000, () => {
-  console.log("server is running successfully raw-nodeJs");
+server.listen(config.port, () => {
+  console.log(`server is running successfully raw-nodeJs ${config.port}`);
 });
